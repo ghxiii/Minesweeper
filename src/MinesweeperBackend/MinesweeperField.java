@@ -90,8 +90,9 @@ public class MinesweeperField {
                 }
             }
         }
+        int[][] tempArr = new int[vec.size()][2];
 
-        return (int[][])vec.toArray();
+        return vec.toArray(new int[][]{});
     }
 
 }
