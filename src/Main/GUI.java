@@ -5,32 +5,34 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class GUI {
-    int fieldSizeX;
-    int fieldSizeY;
     JFrame frame;
     JTable GameField;
 
     GUI(int fieldSizeX, int fieldSizeY) {
-        this.fieldSizeX = fieldSizeX;
-        this.fieldSizeY = fieldSizeY;
         this.frame = new JFrame("Minesweeper");
         this.GameField = new JTable(fieldSizeX, fieldSizeY);
     }
 
     public void start() {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension dim =  new Dimension(400, 400);
+        Dimension dim = new Dimension(400, 400);
         this.frame.setMinimumSize(dim);
-        this.updateField();
+
+        int[][] fieldArray = new int[][]{{2, 4}, {1, 3}};
+        this.updateField(fieldArray);
+        this.getClickedField();
 
         this.frame.add(this.GameField);
         this.frame.setVisible(true);
     }
 
-    public void updateField() {
-        for (int i = 0; i < this.fieldSizeX; i++) {
-            for (int j = 0; j < this.fieldSizeY; j++) {
-                this.GameField.getModel().setValueAt(i + j, i, j);
+    public void updateField(int[][] field) {
+        int xLength = field.length;
+        int yLength = field[0].length;
+
+        for (int i = 0; i < xLength; i++) {
+            for (int j = 0; j < yLength; j++) {
+                this.GameField.getModel().setValueAt(field[i][j], i, j);
             }
         }
     }
@@ -42,7 +44,8 @@ public class GUI {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 CoordinatesMap.put("row", GameField.rowAtPoint(evt.getPoint()));
                 CoordinatesMap.put("column", GameField.columnAtPoint(evt.getPoint()));
-            }});
+            }
+        });
 
         return CoordinatesMap;
     }
