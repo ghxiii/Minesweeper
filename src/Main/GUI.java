@@ -1,9 +1,11 @@
 package Main;
 
+import MinesweeperBackend.FieldState;
 import MinesweeperBackend.MinesweeperField;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class GUI {
     JFrame frame;
@@ -19,7 +21,11 @@ public class GUI {
     public void start() {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension dim = new Dimension(400, 360);
-        int[][] fieldArray = new int[][]{{2, 4}, {1, 3}}; // DEBUG ONLY
+
+        // DEBUG ONLY
+        FieldState[][] fieldArray = new FieldState[][]{{FieldState.EMPTY, FieldState.EMPTY}, {FieldState.EMPTY, FieldState.EMPTY}};
+        // DEBUG ONLY
+
         this.updateField(fieldArray);
         this.frame.add(this.GameField);
         this.frame.setPreferredSize(dim);
@@ -28,7 +34,7 @@ public class GUI {
         this.setupClickHandler();
     }
 
-    private void updateField(int[][] field) {
+    private void updateField(FieldState[][] field) {
         int xLength = field.length;
         int yLength = field[0].length;
 
@@ -46,7 +52,8 @@ public class GUI {
                 int row = GameField.rowAtPoint(evt.getPoint());
                 int column = GameField.columnAtPoint(evt.getPoint());
 
-                // TODO: send clicked field to backend
+                msf.click(row, column);
+                updateField(msf.getStateArray());
             }
         });
     }
