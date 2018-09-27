@@ -5,7 +5,6 @@ import MinesweeperBackend.MinesweeperField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 
 public class GUI {
     JFrame frame;
