@@ -17,8 +17,8 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension dim =  new Dimension(400, 400);
         frame.setMinimumSize(dim);
-        JTable field = new JTable(fieldSizeX, fieldSizeY);
-        frame.add(field);
+        JTable GameField = new JTable(fieldSizeX, fieldSizeY);
+        frame.add(GameField);
         frame.setVisible(true);
     }
 }
