@@ -5,7 +5,6 @@ import MinesweeperBackend.MinesweeperField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 
 public class GUI {
     JFrame frame;
@@ -22,11 +21,7 @@ public class GUI {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension dim = new Dimension(400, 360);
 
-        // DEBUG ONLY
-        FieldState[][] fieldArray = new FieldState[][]{{FieldState.EMPTY, FieldState.EMPTY}, {FieldState.EMPTY, FieldState.EMPTY}};
-        // DEBUG ONLY
-
-        this.updateField(fieldArray);
+        this.updateField(msf.getStateArray());
         this.frame.add(this.GameField);
         this.frame.setPreferredSize(dim);
         this.frame.pack();
