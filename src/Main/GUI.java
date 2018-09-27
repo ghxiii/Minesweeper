@@ -5,6 +5,7 @@ import MinesweeperBackend.MinesweeperField;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class GUI {
     JFrame frame;
@@ -35,7 +36,10 @@ public class GUI {
 
         for (int i = 0; i < xLength; i++) {
             for (int j = 0; j < yLength; j++) {
-                this.GameField.getModel().setValueAt(field[i][j], i, j);
+                FieldState valueToShow = (field[i][j] == FieldState.MINE) ?
+                        FieldState.EMPTY :
+                        field[i][j];
+                this.GameField.getModel().setValueAt(valueToShow, i, j);
             }
         }
     }
