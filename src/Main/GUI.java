@@ -1,11 +1,11 @@
 package Main;
 
 import MinesweeperBackend.FieldState;
+import MinesweeperBackend.GameState;
 import MinesweeperBackend.MinesweeperField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
 
 public class GUI {
     JFrame frame;
@@ -22,11 +22,7 @@ public class GUI {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension dim = new Dimension(400, 360);
 
-        // DEBUG ONLY
-        FieldState[][] fieldArray = new FieldState[][]{{FieldState.EMPTY, FieldState.EMPTY}, {FieldState.EMPTY, FieldState.EMPTY}};
-        // DEBUG ONLY
-
-        this.updateField(fieldArray);
+        this.updateField(msf.getStateArray());
         this.frame.add(this.GameField);
         this.frame.setPreferredSize(dim);
         this.frame.pack();
@@ -40,7 +36,17 @@ public class GUI {
 
         for (int i = 0; i < xLength; i++) {
             for (int j = 0; j < yLength; j++) {
-                this.GameField.getModel().setValueAt(field[i][j], i, j);
+                String valueToShow = "";
+                switch (field[i][j]) {
+                    case EMPTY: valueToShow = "EMPTY"; break;
+                    case MINE: valueToShow = "EMPTY"; break;
+                    case CLICKED: valueToShow = "CLICKED"; break;
+                    case MINE_CLICKED: valueToShow = "MINE_CLICKED"; break;
+                    case MARKED_EMTPY: valueToShow = "MARKED_EMTPY"; break;
+                    case MARKED_MINE: valueToShow = "MARKED_MINE"; break;
+                    default: valueToShow = "ERROR";
+                }
+                this.GameField.getModel().setValueAt(valueToShow, i, j);
             }
         }
     }
