@@ -2,35 +2,48 @@ package Main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 public class GUI {
     int fieldSizeX;
     int fieldSizeY;
+    JFrame frame;
+    JTable GameField;
 
     GUI(int fieldSizeX, int fieldSizeY) {
         this.fieldSizeX = fieldSizeX;
         this.fieldSizeY = fieldSizeY;
+        this.frame = new JFrame("Minesweeper");
+        this.GameField = new JTable(fieldSizeX, fieldSizeY);
     }
 
     public void start() {
-        JFrame frame = new JFrame("Minesweeper");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension dim =  new Dimension(400, 400);
-        frame.setMinimumSize(dim);
-        JTable GameField = new JTable(fieldSizeX, fieldSizeY);
-        for (int i = 0; i < fieldSizeX; i++) {
-            for (int j = 0; j < fieldSizeY; j++) {
-                GameField.getModel().setValueAt(i + j, i, j);
+        this.frame.setMinimumSize(dim);
+        this.updateField();
+
+        this.frame.add(this.GameField);
+        this.frame.setVisible(true);
+    }
+
+    public void updateField() {
+        for (int i = 0; i < this.fieldSizeX; i++) {
+            for (int j = 0; j < this.fieldSizeY; j++) {
+                this.GameField.getModel().setValueAt(i + j, i, j);
             }
         }
-        GameField.addMouseListener(new java.awt.event.MouseAdapter() {
+    }
+
+    public HashMap<String, Integer> getClickedField() {
+        HashMap<String, Integer> CoordinatesMap = new HashMap<>();
+        this.GameField.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int row = GameField.rowAtPoint(evt.getPoint());
-                int col = GameField.columnAtPoint(evt.getPoint());
+                CoordinatesMap.put("row", GameField.rowAtPoint(evt.getPoint()));
+                CoordinatesMap.put("column", GameField.columnAtPoint(evt.getPoint()));
             }});
 
-        frame.add(GameField);
-        frame.setVisible(true);
+        return CoordinatesMap;
     }
 }
