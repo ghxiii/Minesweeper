@@ -5,32 +5,48 @@ import java.util.Random;
 public class MinesweeperField {
     private int fieldSizeX;
     private int fieldSizeY;
-    private int numberMines;
+    private int numberOfMines;
     private GameState gameState;
 
     private long seed;
     Random rnd;
 
     private FieldState fieldArrayMines[][];
-    private  int mineNumbers[][];
+    private  int mineProximityNumbers[][];
 
 
-    public MinesweeperField(int fieldSizeX, int fieldSizeY, int numberMines) {
+    public MinesweeperField(int fieldSizeX, int fieldSizeY, int numberOfMines) {
         rnd= new Random( new java.util.Date().getTime() );
         this.fieldSizeX = fieldSizeX;
         this.fieldSizeY = fieldSizeY;
-        this.numberMines = numberMines;
+        this.numberOfMines = numberOfMines;
         fieldArrayMines = new FieldState[fieldSizeX][fieldSizeY];
-        mineNumbers = new int[fieldSizeX][fieldSizeY];
+        mineProximityNumbers = new int[fieldSizeX][fieldSizeY];
+        for (int x=0;x<fieldSizeX;x++){
+            for(int y=0;y<fieldSizeY;y++){
+                fieldArrayMines[x][y]=FieldState.EMPTY;
+            }
+        }
+        placeMines();
     }
 
-    public MinesweeperField(int fieldSizeX, int fieldSizeY, int numberMines, int seed) {
+    private void placeMines() {
+        int mineNumber=1;
+        int x,y;
+        boolean newRevealed=false;
+        while (mineNumber<= numberOfMines){
+            x=rnd.nextInt(fieldSizeX);
+            y=rnd.nextInt(fieldSizeY);
+            if(fieldArrayMines[x][y]==FieldState.EMPTY) {
+                fieldArrayMines[x][y]=FieldState.MINE;
+                mineNumber++;
+            }
+        }
+    }
+
+    public MinesweeperField(int fieldSizeX, int fieldSizeY, int numberOfMines, int seed) {
+        this(fieldSizeX, fieldSizeY, numberOfMines);
         rnd = new Random(seed);
-        this.fieldSizeX = fieldSizeX;
-        this.fieldSizeY = fieldSizeY;
-        this.numberMines = numberMines;
-        fieldArrayMines = new FieldState[fieldSizeX][fieldSizeY];
-        mineNumbers = new int[fieldSizeX][fieldSizeY];
     }
 
     public FieldState[][] getStateArray(){
@@ -38,14 +54,14 @@ public class MinesweeperField {
     }
 
     public int[][]getMineProximityNumbers(){
-        return  mineNumbers;
+        return mineProximityNumbers;
     }
 
     private void update(){
         int x,y;
         boolean newRevealed=false;
         for (x=0;x<fieldSizeX;x++){
-            for(y=0;y<fieldSizeX;y++){
+            for(y=0;y<fieldSizeY;y++){
 
             }
         }
