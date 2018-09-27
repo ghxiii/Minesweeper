@@ -18,6 +18,18 @@ public class GUI {
         Dimension dim =  new Dimension(400, 400);
         frame.setMinimumSize(dim);
         JTable GameField = new JTable(fieldSizeX, fieldSizeY);
+        for (int i = 0; i < fieldSizeX; i++) {
+            for (int j = 0; j < fieldSizeY; j++) {
+                GameField.getModel().setValueAt(i + j, i, j);
+            }
+        }
+        GameField.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = GameField.rowAtPoint(evt.getPoint());
+                int col = GameField.columnAtPoint(evt.getPoint());
+            }});
+
         frame.add(GameField);
         frame.setVisible(true);
     }
