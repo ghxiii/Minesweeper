@@ -2,7 +2,6 @@ package Main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
 
 public class GUI {
     JFrame frame;
@@ -17,16 +16,11 @@ public class GUI {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Dimension dim = new Dimension(400, 400);
         this.frame.setMinimumSize(dim);
-
-        int[][] fieldArray = new int[][]{{2, 4}, {1, 3}};
+        int[][] fieldArray = new int[][]{{2, 4}, {1, 3}}; // DEBUG ONLY
         this.updateField(fieldArray);
-
-        HashMap<String, Integer> coordinates = getClickedField();
-        System.out.println(this.GameField.getModel().getValueAt(
-                coordinates.get("row"), coordinates.get("column")));
-
         this.frame.add(this.GameField);
         this.frame.setVisible(true);
+        this.setupClickHandler();
     }
 
     public void updateField(int[][] field) {
@@ -40,16 +34,15 @@ public class GUI {
         }
     }
 
-    public HashMap<String, Integer> getClickedField() {
-        HashMap<String, Integer> CoordinatesMap = new HashMap<>();
+    public void setupClickHandler() {
         this.GameField.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CoordinatesMap.put("row", GameField.rowAtPoint(evt.getPoint()));
-                CoordinatesMap.put("column", GameField.columnAtPoint(evt.getPoint()));
+                int row = GameField.rowAtPoint(evt.getPoint());
+                int column = GameField.columnAtPoint(evt.getPoint());
+
+                // TODO: send clicked field to backend
             }
         });
-
-        return CoordinatesMap;
     }
 }
