@@ -1,6 +1,7 @@
 package MinesweeperBackend;
 
 import java.util.Random;
+import java.util.Vector;
 
 public class MinesweeperField {
     private int fieldSizeX;
@@ -77,7 +78,20 @@ public class MinesweeperField {
     }
 
     private int[][] getNachbarn(int x, int y){
-        return new int[0][0];
+        Vector<int[]> vec = new Vector();
+        int newX=0;
+        int newY=0;
+        for (int xDelta=-1;xDelta<2;xDelta++){
+            for (int yDelta=-1;yDelta<2;yDelta++){
+                newX = x + xDelta;
+                newY = y + yDelta;
+                if(newX>0 && newX<=fieldSizeX && newY>0 && newY<=fieldSizeY){
+                    vec.add(new int[]{newX,newY});
+                }
+            }
+        }
+
+        return (int[][])vec.toArray();
     }
 
 }
