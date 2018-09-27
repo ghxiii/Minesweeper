@@ -49,13 +49,24 @@ public class MinesweeperField {
                 mineNumber++;
             }
         }
+        calculateMineProximityNumbers();
+    }
+
+    private void calculateMineProximityNumbers() {
+        for (int x=0;x<fieldSizeX;x++){
+            for(int y=0;y<fieldSizeY;y++){
+                int[][] tempArr=getNachbarn(x,y);
+                int minesInProximity
+                fieldArrayMines[x][y]=FieldState.EMPTY;
+            }
+        }
     }
 
     public FieldState[][] getStateArray(){
         return fieldArrayMines;
     }
 
-    public int[][]getMineProximityNumbers(){
+    public int[][] getMineProximityNumbers(){
         return mineProximityNumbers;
     }
 
@@ -64,7 +75,8 @@ public class MinesweeperField {
         boolean newRevealed=false;
         for (x=0;x<fieldSizeX;x++){
             for(y=0;y<fieldSizeY;y++){
-
+                if(fieldArrayMines[x][y] == FieldState.EMPTY_CLICKED && mineProximityNumbers[x][y]==0)
+                    int [][] temp = getNachbarn()
             }
         }
         //if only mines -> win
@@ -93,6 +105,18 @@ public class MinesweeperField {
         int[][] tempArr = new int[vec.size()][2];
 
         return vec.toArray(new int[][]{});
+    }
+
+    private int getMinesInProximity(int x, int y){
+        int[][] nachbarn = getNachbarn(x,y);
+        int minesCounted = 0;
+        for(int i=0;i<nachbarn.length;i++){
+            int nachbX=nachbarn[i][0];
+            int nachbY=nachbarn[i][1];
+            if (fieldArrayMines[nachbX][nachbY]==FieldState.MINE ||fieldArrayMines[nachbX][nachbY]==FieldState.MINE_CLICKED ){
+                minesCounted++;
+            }
+        }
     }
 
 }
