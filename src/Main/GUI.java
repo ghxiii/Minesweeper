@@ -46,7 +46,7 @@ public class GUI {
                 CoordinatesMap.put("column", GameField.columnAtPoint(evt.getPoint()));
             }
         });
-
+//test test
         return CoordinatesMap;
     }
 }
