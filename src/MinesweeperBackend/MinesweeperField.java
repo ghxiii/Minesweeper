@@ -60,9 +60,7 @@ public class MinesweeperField {
     private void calculateMineProximityNumbers() {
         for (int x=0;x<fieldSizeX;x++){
             for(int y=0;y<fieldSizeY;y++){
-                int[][] tempArr=getNachbarn(x,y);
-                int minesInProximity
-                fieldArrayMines[x][y]=FieldState.EMPTY;
+                mineProximityNumbers[x][y]=getMinesInProximity(x,y);
             }
         }
     }
@@ -78,10 +76,22 @@ public class MinesweeperField {
     private void update(){
         int x,y;
         boolean newRevealed=false;
+        int [][] nachbarn;
         for (x=0;x<fieldSizeX;x++){
             for(y=0;y<fieldSizeY;y++){
-                if(fieldArrayMines[x][y] == FieldState.EMPTY_CLICKED && mineProximityNumbers[x][y]==0)
-                    int [][] temp = getNachbarn(x,y);
+                if(fieldArrayMines[x][y] == FieldState.EMPTY_CLICKED && mineProximityNumbers[x][y]==0) {
+                    nachbarn = getNachbarn(x, y);
+                    for(int i=0;i<nachbarn.length;i++){
+                        int nachbX=nachbarn[i][0];
+                        int nachbY=nachbarn[i][1];
+                        if (fieldArrayMines[nachbX][nachbY]==FieldState.EMPTY && mineProximityNumbers[nachbX][nachbY]==0 ){
+
+                        }
+                    }
+                    getMinesInProximity(x,y);
+                }
+
+
             }
         }
         //if only mines -> win
