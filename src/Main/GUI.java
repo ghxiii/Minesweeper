@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class GUI {
     JFrame frame;
     JTable GameField;
-
+//test
     GUI(int fieldSizeX, int fieldSizeY) {
         this.frame = new JFrame("Minesweeper");
         this.GameField = new JTable(fieldSizeX, fieldSizeY);
@@ -20,7 +20,10 @@ public class GUI {
 
         int[][] fieldArray = new int[][]{{2, 4}, {1, 3}};
         this.updateField(fieldArray);
-        this.getClickedField();
+
+        HashMap<String, Integer> coordinates = getClickedField();
+        System.out.println(this.GameField.getModel().getValueAt(
+                coordinates.get("row"), coordinates.get("column")));
 
         this.frame.add(this.GameField);
         this.frame.setVisible(true);
@@ -46,7 +49,7 @@ public class GUI {
                 CoordinatesMap.put("column", GameField.columnAtPoint(evt.getPoint()));
             }
         });
-
+//test test
         return CoordinatesMap;
     }
 }

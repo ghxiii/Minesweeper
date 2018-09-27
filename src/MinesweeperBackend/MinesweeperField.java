@@ -6,6 +6,8 @@ public class MinesweeperField {
     private int fieldSizeX;
     private int fieldSizeY;
     private int numberMines;
+    private GameState gameState;
+
     private long seed;
     Random rnd;
 
@@ -41,9 +43,19 @@ public class MinesweeperField {
 
     private void update(){
         int x,y;
-        for (x=0;x<fieldSizeX){
-            for(y=0;y<fieldSizeX)
+        boolean newRevealed=false;
+        for (x=0;x<fieldSizeX;x++){
+            for(y=0;y<fieldSizeX;y++){
+
+            }
         }
+        //if only mines -> win
+        if (newRevealed) update();
+    }
+
+    public void click(int x, int y){
+        //if mine -> game end, set gameState
+        //if not mine -> reveal, update
     }
 
 }
