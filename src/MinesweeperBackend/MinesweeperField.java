@@ -28,6 +28,12 @@ public class MinesweeperField {
             }
         }
         placeMines();
+        gameState = GameState.RUNNING;
+    }
+
+    public MinesweeperField(int fieldSizeX, int fieldSizeY, int numberOfMines, int seed) {
+        this(fieldSizeX, fieldSizeY, numberOfMines);
+        rnd = new Random(seed);
     }
 
     private void placeMines() {
@@ -42,11 +48,6 @@ public class MinesweeperField {
                 mineNumber++;
             }
         }
-    }
-
-    public MinesweeperField(int fieldSizeX, int fieldSizeY, int numberOfMines, int seed) {
-        this(fieldSizeX, fieldSizeY, numberOfMines);
-        rnd = new Random(seed);
     }
 
     public FieldState[][] getStateArray(){
@@ -70,8 +71,13 @@ public class MinesweeperField {
     }
 
     public void click(int x, int y){
+
         //if mine -> game end, set gameState
         //if not mine -> reveal, update
+    }
+
+    private int[][] getNachbarn(int x, int y){
+        return new int[0][0];
     }
 
 }
