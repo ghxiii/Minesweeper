@@ -45,7 +45,6 @@ public class MinesweeperField {
     private void placeMines() {
         int mineNumber=1;
         int x,y;
-        boolean newRevealed=false;
         while (mineNumber<= numberOfMines){
             x=rnd.nextInt(fieldSizeX);
             y=rnd.nextInt(fieldSizeY);
@@ -73,35 +72,37 @@ public class MinesweeperField {
         return mineProximityNumbers;
     }
 
-    private void update(){
+    private void update(){ //finde geklikte '0' Felder, check Nachbarn, setzt entspr. Nachbarn auf "clicked_empty"
         int x,y;
         boolean newRevealed=false;
+        boolean onlyMines=true;
         int [][] nachbarn;
         for (x=0;x<fieldSizeX;x++){
             for(y=0;y<fieldSizeY;y++){
+                if( !(fieldArrayMines[x][y] == FieldState.MINE ||fieldArrayMines[x][y] == FieldState.EMPTY_CLICKED) ) onlyMines=false;
                 if(fieldArrayMines[x][y] == FieldState.EMPTY_CLICKED && mineProximityNumbers[x][y]==0) {
                     nachbarn = getNachbarn(x, y);
                     for(int i=0;i<nachbarn.length;i++){
                         int nachbX=nachbarn[i][0];
                         int nachbY=nachbarn[i][1];
                         if (fieldArrayMines[nachbX][nachbY]==FieldState.EMPTY && mineProximityNumbers[nachbX][nachbY]==0 ){
-
+                            fieldArrayMines[nachbX][nachbY]=FieldState.EMPTY_CLICKED;
+                            newRevealed=true;
                         }
                     }
-                    getMinesInProximity(x,y);
                 }
 
 
             }
         }
-        //if only mines -> win
         if (newRevealed) update();
+        if (onlyMines) gameState=GameState.WIN;
     }
 
     public void click(int x, int y){
 
-        //if mine -> game end, set gameState
-        //if not mine -> reveal, update
+        if(fieldArrayMines[x][y]==FieldState.MINE) gameState=GameState.LOSE;
+        update();
     }
 
     private int[][] getNachbarn(int x, int y){
@@ -132,6 +133,7 @@ public class MinesweeperField {
                 minesCounted++;
             }
         }
+        return minesCounted;
     }
 
 }
