@@ -1,5 +1,7 @@
 package MinesweeperBackend;
 
+import MinesweeperBackend.geklaut.Mines;
+
 import java.util.Random;
 import java.util.Vector;
 
@@ -7,6 +9,7 @@ public class MinesweeperField {
     private int fieldSizeX;
     private int fieldSizeY;
     private int numberOfMines;
+    private int updateCount=0;
 
     public GameState getGameState() {
         return gameState;
@@ -15,11 +18,18 @@ public class MinesweeperField {
     private GameState gameState;
 
     private long seed;
-    Random rnd;
+    private Random rnd;
 
     private FieldState fieldArrayMines[][];
     private  int mineProximityNumbers[][];
 
+    public static void main(String[] args) {
+        MinesweeperField tempMSField = new MinesweeperField(5,5,1);
+        System.out.println( tempMSField.toString());
+        tempMSField.click(0,0);
+        System.out.println( tempMSField.toString());
+        System.out.println(tempMSField.getGameState().toString());
+    }
 
     public MinesweeperField(int fieldSizeX, int fieldSizeY, int numberOfMines) {
         rnd= new Random( new java.util.Date().getTime() );
@@ -48,7 +58,7 @@ public class MinesweeperField {
         while (mineNumber<= numberOfMines){
             x=rnd.nextInt(fieldSizeX);
             y=rnd.nextInt(fieldSizeY);
-            if(fieldArrayMines[x][y]==FieldState.EMPTY) {
+            if(fieldArrayMines[x][y]!=FieldState.MINE) {
                 fieldArrayMines[x][y]=FieldState.MINE;
                 mineNumber++;
             }
@@ -95,12 +105,15 @@ public class MinesweeperField {
 
             }
         }
+        updateCount++;
+        if (updateCount>100) {System.out.println("PROBABLE UPDATE() ERROR"); System.exit(-1);}
         if (newRevealed) update();
+        updateCount--;
         if (onlyMines) gameState=GameState.WIN;
     }
 
     public void click(int x, int y){
-
+        if(fieldArrayMines[x][y]==FieldState.EMPTY) fieldArrayMines[x][y]=FieldState.EMPTY_CLICKED;
         if(fieldArrayMines[x][y]==FieldState.MINE) gameState=GameState.LOSE;
         update();
     }
@@ -111,16 +124,16 @@ public class MinesweeperField {
         int newY=0;
         for (int xDelta=-1;xDelta<2;xDelta++){
             for (int yDelta=-1;yDelta<2;yDelta++){
+                if(xDelta==0 && yDelta==0) continue;
                 newX = x + xDelta;
                 newY = y + yDelta;
-                if(newX>0 && newX<=fieldSizeX && newY>0 && newY<=fieldSizeY){
+                if(newX>=0 && newX<fieldSizeX && newY>=0 && newY<fieldSizeY){
                     vec.add(new int[]{newX,newY});
                 }
             }
         }
-        int[][] tempArr = new int[vec.size()][2];
-
-        return vec.toArray(new int[][]{});
+        int[][] retArr = vec.toArray(new int[][]{});
+        return retArr;
     }
 
     private int getMinesInProximity(int x, int y){
@@ -134,6 +147,22 @@ public class MinesweeperField {
             }
         }
         return minesCounted;
+    }
+
+    @Override
+    public String toString(){
+        String returnStr="";
+        for (int x=0;x<fieldSizeX;x++) {
+            for (int y = 0; y < fieldSizeY; y++) {
+                String str=" ";
+                    if (fieldArrayMines[x][y]==FieldState.MINE) str="o";
+                    if (fieldArrayMines[x][y]==FieldState.EMPTY_CLICKED) str="'";
+                    if (fieldArrayMines[x][y]==FieldState.EMPTY) str="_";
+                returnStr = returnStr + str;
+            }
+            returnStr= returnStr+"\n";
+        }
+        return returnStr;
     }
 
 }
