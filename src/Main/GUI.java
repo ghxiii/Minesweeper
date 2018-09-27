@@ -1,35 +1,40 @@
 package Main;
 
+import MinesweeperBackend.FieldState;
+import MinesweeperBackend.MinesweeperField;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
+import java.util.Arrays;
 
 public class GUI {
     JFrame frame;
     JTable GameField;
-//test
+    MinesweeperField msf;
+
     GUI(int fieldSizeX, int fieldSizeY) {
         this.frame = new JFrame("Minesweeper");
         this.GameField = new JTable(fieldSizeX, fieldSizeY);
+        this.msf = new MinesweeperField(fieldSizeX, fieldSizeY, 15);
     }
 
     public void start() {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension dim = new Dimension(400, 400);
-        this.frame.setMinimumSize(dim);
+        Dimension dim = new Dimension(400, 360);
 
-        int[][] fieldArray = new int[][]{{2, 4}, {1, 3}};
+        // DEBUG ONLY
+        FieldState[][] fieldArray = new FieldState[][]{{FieldState.EMPTY, FieldState.EMPTY}, {FieldState.EMPTY, FieldState.EMPTY}};
+        // DEBUG ONLY
+
         this.updateField(fieldArray);
-
-        HashMap<String, Integer> coordinates = getClickedField();
-        System.out.println(this.GameField.getModel().getValueAt(
-                coordinates.get("row"), coordinates.get("column")));
-
         this.frame.add(this.GameField);
+        this.frame.setPreferredSize(dim);
+        this.frame.pack();
         this.frame.setVisible(true);
+        this.setupClickHandler();
     }
 
-    public void updateField(int[][] field) {
+    private void updateField(FieldState[][] field) {
         int xLength = field.length;
         int yLength = field[0].length;
 
@@ -40,16 +45,16 @@ public class GUI {
         }
     }
 
-    public HashMap<String, Integer> getClickedField() {
-        HashMap<String, Integer> CoordinatesMap = new HashMap<>();
+    public void setupClickHandler() {
         this.GameField.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CoordinatesMap.put("row", GameField.rowAtPoint(evt.getPoint()));
-                CoordinatesMap.put("column", GameField.columnAtPoint(evt.getPoint()));
+                int row = GameField.rowAtPoint(evt.getPoint());
+                int column = GameField.columnAtPoint(evt.getPoint());
+
+                msf.click(row, column);
+                updateField(msf.getStateArray());
             }
         });
-//test test
-        return CoordinatesMap;
     }
 }
