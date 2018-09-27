@@ -7,6 +7,11 @@ public class MinesweeperField {
     private int fieldSizeX;
     private int fieldSizeY;
     private int numberOfMines;
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
     private GameState gameState;
 
     private long seed;
@@ -76,7 +81,7 @@ public class MinesweeperField {
         for (x=0;x<fieldSizeX;x++){
             for(y=0;y<fieldSizeY;y++){
                 if(fieldArrayMines[x][y] == FieldState.EMPTY_CLICKED && mineProximityNumbers[x][y]==0)
-                    int [][] temp = getNachbarn()
+                    int [][] temp = getNachbarn(x,y);
             }
         }
         //if only mines -> win
