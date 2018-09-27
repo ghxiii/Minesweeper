@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class GUI {
     JFrame frame;
     JTable GameField;
-//test
+
     GUI(int fieldSizeX, int fieldSizeY) {
         this.frame = new JFrame("Minesweeper");
         this.GameField = new JTable(fieldSizeX, fieldSizeY);
