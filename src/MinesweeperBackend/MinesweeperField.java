@@ -96,9 +96,9 @@ public class MinesweeperField {
                         int nachbX=nachbarn[i][0];
                         int nachbY=nachbarn[i][1];
                         if (fieldArrayMines[nachbX][nachbY]==FieldState.EMPTY && mineProximityNumbers[nachbX][nachbY]==0 ){
-                            fieldArrayMines[nachbX][nachbY]=FieldState.EMPTY_CLICKED;
                             newRevealed=true;
                         }
+                        fieldArrayMines[nachbX][nachbY]=FieldState.EMPTY_CLICKED;
                     }
                 }
 
