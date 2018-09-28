@@ -15,7 +15,7 @@ public class GUI {
     GUI(int fieldSizeX, int fieldSizeY) {
         this.frame = new JFrame("Minesweeper");
         this.GameField = new JTable(fieldSizeX, fieldSizeY);
-        this.msf = new MinesweeperField(fieldSizeX, fieldSizeY, 15);
+        this.msf = new MinesweeperField(fieldSizeX, fieldSizeY, 5);
     }
 
     public void start() {
@@ -40,7 +40,7 @@ public class GUI {
                 switch (field[i][j]) {
                     case EMPTY: valueToShow = "EMPTY"; break;
                     case MINE: valueToShow = "EMPTY"; break;
-                    case CLICKED: valueToShow = "CLICKED"; break;
+                    case EMPTY_CLICKED: valueToShow = "EMPTY_CLICKED"; break;
                     case MINE_CLICKED: valueToShow = "MINE_CLICKED"; break;
                     case MARKED_EMTPY: valueToShow = "MARKED_EMTPY"; break;
                     case MARKED_MINE: valueToShow = "MARKED_MINE"; break;
