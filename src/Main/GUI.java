@@ -1,6 +1,7 @@
 package Main;
 
 import MinesweeperBackend.FieldState;
+import MinesweeperBackend.GameState;
 import MinesweeperBackend.MinesweeperField;
 
 import javax.swing.*;
@@ -65,6 +66,9 @@ public class GUI {
 
                 msf.click(row, column);
                 updateField(msf.getStateArray());
+                //TODO change reaction to win/lose gamestate
+                if (msf.getGameState()== GameState.WIN) System.out.println("WON");
+                if (msf.getGameState()== GameState.LOSE) System.out.println("LOST");
             }
         });
     }
