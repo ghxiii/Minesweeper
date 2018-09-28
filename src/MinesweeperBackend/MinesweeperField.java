@@ -1,7 +1,5 @@
 package MinesweeperBackend;
 
-import MinesweeperBackend.geklaut.Mines;
-
 import java.util.Random;
 import java.util.Vector;
 
@@ -22,14 +20,6 @@ public class MinesweeperField {
 
     private FieldState fieldArrayMines[][];
     private  int mineProximityNumbers[][];
-
-    public static void main(String[] args) {
-        MinesweeperField tempMSField = new MinesweeperField(5,5,1);
-        System.out.println( tempMSField.toString());
-        tempMSField.click(0,0);
-        System.out.println( tempMSField.toString());
-        System.out.println(tempMSField.getGameState().toString());
-    }
 
     public MinesweeperField(int fieldSizeX, int fieldSizeY, int numberOfMines) {
         rnd= new Random( new java.util.Date().getTime() );

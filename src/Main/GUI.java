@@ -12,15 +12,15 @@ public class GUI {
     JTable GameField;
     MinesweeperField msf;
 
-    GUI(int fieldSizeX, int fieldSizeY) {
+    GUI(int fieldSizeX, int fieldSizeY, int numberOfMines) {
         this.frame = new JFrame("Minesweeper");
         this.GameField = new JTable(fieldSizeX, fieldSizeY);
-        this.msf = new MinesweeperField(fieldSizeX, fieldSizeY, 5);
+        this.msf = new MinesweeperField(fieldSizeX, fieldSizeY, numberOfMines);
     }
 
     public void start() {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension dim = new Dimension(400, 360);
+        Dimension dim = new Dimension(500, 400);
 
         this.updateField(msf.getStateArray());
         this.frame.add(this.GameField);
@@ -38,12 +38,6 @@ public class GUI {
             for (int j = 0; j < yLength; j++) {
                 String valueToShow = "";
                 switch (field[i][j]) {
-//                    case EMPTY: valueToShow = "EMPTY"; break;
-//                    case MINE: valueToShow = "EMPTY"; break;
-//                    case EMPTY_CLICKED: valueToShow = ""+msf.getMineProximityNumbers(i,j); break;
-//                    case MINE_CLICKED: valueToShow = "MINE_CLICKED"; break;
-//                    case MARKED_EMPTY: valueToShow = "MARKED_EMPTY"; break;
-//                    case MARKED_MINE: valueToShow = "MARKED_MINE"; break;
                     case EMPTY:
                     case MINE: valueToShow = " "; break;
                     case EMPTY_CLICKED: valueToShow = "" + (msf.getMineProximityNumbers(i,j)==0?"_":msf.getMineProximityNumbers(i,j)); break;
@@ -66,10 +60,19 @@ public class GUI {
 
                 msf.click(row, column);
                 updateField(msf.getStateArray());
-                //TODO change reaction to win/lose gamestate
-                if (msf.getGameState()== GameState.WIN) System.out.println("WON");
-                if (msf.getGameState()== GameState.LOSE) System.out.println("LOST");
+                GameState state = msf.getGameState();
+                if (state == GameState.WIN) {
+                    showMessage("You Won.");
+                }
+                else if (state == GameState.LOSE) {
+                    showMessage("You Lost");
+                }
             }
         });
+    }
+
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(null, message);
+        System.exit(0);
     }
 }
