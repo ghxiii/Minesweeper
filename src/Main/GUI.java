@@ -40,7 +40,7 @@ public class GUI {
                 switch (field[i][j]) {
                     case EMPTY: valueToShow = "EMPTY"; break;
                     case MINE: valueToShow = "EMPTY"; break;
-                    case EMPTY_CLICKED: valueToShow = msf.getMineProximityNumbers(i,j); break;
+                    case EMPTY_CLICKED: valueToShow = ""+msf.getMineProximityNumbers(i,j); break;
                     case MINE_CLICKED: valueToShow = "MINE_CLICKED"; break;
                     case MARKED_EMTPY: valueToShow = "MARKED_EMTPY"; break;
                     case MARKED_MINE: valueToShow = "MARKED_MINE"; break;
