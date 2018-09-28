@@ -20,6 +20,9 @@ public class GUI {
         this.frame = new JFrame("Minesweeper");
         this.panel = new JPanel(new GridBagLayout());
         this.GameField = new JTable(fieldSizeX, fieldSizeY);
+        for(int i = 0; i< fieldSizeX; i++) {
+            this.GameField.getColumnModel().getColumn(i).setPreferredWidth(10);
+        }
         this.msf = new MinesweeperField(fieldSizeX, fieldSizeY, numberOfMines);
         this.twoPlayerMode = mode;
         this.playersTurnTextArea = new JTextArea();
@@ -50,7 +53,7 @@ public class GUI {
                         valueToShow = " ";
                         break;
                     case EMPTY_CLICKED:
-                        valueToShow = "" + (msf.getMineProximityNumbers(i, j) == 0 ? "||||||" : msf.getMineProximityNumbers(i, j));
+                        valueToShow = "" + (msf.getMineProximityNumbers(i, j) == 0 ? "||||" : msf.getMineProximityNumbers(i, j));
                         break;
                     case MINE_CLICKED:
                         valueToShow = "M";
