@@ -1,7 +1,6 @@
 package Main;
 
 import MinesweeperBackend.FieldState;
-import MinesweeperBackend.GameState;
 import MinesweeperBackend.MinesweeperField;
 
 import javax.swing.*;
@@ -38,12 +37,18 @@ public class GUI {
             for (int j = 0; j < yLength; j++) {
                 String valueToShow = "";
                 switch (field[i][j]) {
-                    case EMPTY: valueToShow = "EMPTY"; break;
-                    case MINE: valueToShow = "EMPTY"; break;
+//                    case EMPTY: valueToShow = "EMPTY"; break;
+//                    case MINE: valueToShow = "EMPTY"; break;
+//                    case EMPTY_CLICKED: valueToShow = ""+msf.getMineProximityNumbers(i,j); break;
+//                    case MINE_CLICKED: valueToShow = "MINE_CLICKED"; break;
+//                    case MARKED_EMPTY: valueToShow = "MARKED_EMPTY"; break;
+//                    case MARKED_MINE: valueToShow = "MARKED_MINE"; break;
+                    case EMPTY:
+                    case MINE: valueToShow = " "; break;
                     case EMPTY_CLICKED: valueToShow = ""+msf.getMineProximityNumbers(i,j); break;
-                    case MINE_CLICKED: valueToShow = "MINE_CLICKED"; break;
-                    case MARKED_EMTPY: valueToShow = "MARKED_EMTPY"; break;
-                    case MARKED_MINE: valueToShow = "MARKED_MINE"; break;
+                    case MINE_CLICKED: valueToShow = "M"; break;
+                    case MARKED_EMPTY:
+                    case MARKED_MINE: valueToShow = "X"; break;
                     default: valueToShow = "ERROR";
                 }
                 this.GameField.getModel().setValueAt(valueToShow, i, j);
