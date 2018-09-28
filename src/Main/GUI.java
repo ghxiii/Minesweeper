@@ -45,7 +45,7 @@ public class GUI {
 //                    case MARKED_MINE: valueToShow = "MARKED_MINE"; break;
                     case EMPTY:
                     case MINE: valueToShow = " "; break;
-                    case EMPTY_CLICKED: valueToShow = "" + (msf.getMineProximityNumbers(i,j)==0?" ":msf.getMineProximityNumbers(i,j)); break;
+                    case EMPTY_CLICKED: valueToShow = "" + (msf.getMineProximityNumbers(i,j)==0?"_":msf.getMineProximityNumbers(i,j)); break;
                     case MINE_CLICKED: valueToShow = "M"; break;
                     case MARKED_EMPTY:
                     case MARKED_MINE: valueToShow = "X"; break;
