@@ -113,6 +113,8 @@ public class MinesweeperField {
     }
 
     public void click(int x, int y){
+        if(x<0 || x>fieldSizeX) return;
+        if(y<0 || y>fieldSizeY) return;
         if(fieldArrayMines[x][y]==FieldState.EMPTY) fieldArrayMines[x][y]=FieldState.EMPTY_CLICKED;
         if(fieldArrayMines[x][y]==FieldState.MINE) gameState=GameState.LOSE;
         update();
