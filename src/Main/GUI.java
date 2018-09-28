@@ -26,12 +26,12 @@ public class GUI {
 
     public void start() {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension dim = new Dimension(500, 400);
-
         this.updateField(msf.getStateArray());
+        //this.frame.setLayout();
         this.frame.add(this.GameField);
-        this.frame.setPreferredSize(dim);
+        //this.frame.add(this.playersTurnTextArea);
         this.frame.pack();
+        this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
         this.setupClickHandler();
     }
