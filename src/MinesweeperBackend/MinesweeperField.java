@@ -78,8 +78,8 @@ public class MinesweeperField {
         return fieldArrayMines;
     }
 
-    public int[][] getMineProximityNumbers(){
-        return mineProximityNumbers;
+    public int getMineProximityNumbers(int x, int y){
+        return mineProximityNumbers[x][y];
     }
 
     private void update(){ //finde geklikte '0' Felder, check Nachbarn, setzt entspr. Nachbarn auf "clicked_empty"
@@ -116,7 +116,10 @@ public class MinesweeperField {
         if(x<0 || x>fieldSizeX) return;
         if(y<0 || y>fieldSizeY) return;
         if(fieldArrayMines[x][y]==FieldState.EMPTY) fieldArrayMines[x][y]=FieldState.EMPTY_CLICKED;
-        if(fieldArrayMines[x][y]==FieldState.MINE) gameState=GameState.LOSE;
+        if(fieldArrayMines[x][y]==FieldState.MINE) {
+            fieldArrayMines[x][y]=FieldState.MINE_CLICKED;
+            gameState=GameState.LOSE;
+        }
         update();
     }
 
