@@ -7,6 +7,7 @@ public class MinesweeperField {
     private int fieldSizeX;
     private int fieldSizeY;
     private int numberOfMines;
+    private int updateCount=0;
 
     public GameState getGameState() {
         return gameState;
@@ -15,11 +16,10 @@ public class MinesweeperField {
     private GameState gameState;
 
     private long seed;
-    Random rnd;
+    private Random rnd;
 
     private FieldState fieldArrayMines[][];
     private  int mineProximityNumbers[][];
-
 
     public MinesweeperField(int fieldSizeX, int fieldSizeY, int numberOfMines) {
         rnd= new Random( new java.util.Date().getTime() );
@@ -48,7 +48,7 @@ public class MinesweeperField {
         while (mineNumber<= numberOfMines){
             x=rnd.nextInt(fieldSizeX);
             y=rnd.nextInt(fieldSizeY);
-            if(fieldArrayMines[x][y]==FieldState.EMPTY) {
+            if(fieldArrayMines[x][y]!=FieldState.MINE) {
                 fieldArrayMines[x][y]=FieldState.MINE;
                 mineNumber++;
             }
@@ -68,8 +68,8 @@ public class MinesweeperField {
         return fieldArrayMines;
     }
 
-    public int[][] getMineProximityNumbers(){
-        return mineProximityNumbers;
+    public int getMineProximityNumbers(int x, int y){
+        return mineProximityNumbers[x][y];
     }
 
     private void update(){ //finde geklikte '0' Felder, check Nachbarn, setzt entspr. Nachbarn auf "clicked_empty"
@@ -86,22 +86,30 @@ public class MinesweeperField {
                         int nachbX=nachbarn[i][0];
                         int nachbY=nachbarn[i][1];
                         if (fieldArrayMines[nachbX][nachbY]==FieldState.EMPTY && mineProximityNumbers[nachbX][nachbY]==0 ){
-                            fieldArrayMines[nachbX][nachbY]=FieldState.EMPTY_CLICKED;
                             newRevealed=true;
                         }
+                        fieldArrayMines[nachbX][nachbY]=FieldState.EMPTY_CLICKED;
                     }
                 }
 
 
             }
         }
+        updateCount++;
+        if (updateCount>100) {System.out.println("PROBABLE UPDATE() ERROR"); System.exit(-1);}
         if (newRevealed) update();
+        updateCount--;
         if (onlyMines) gameState=GameState.WIN;
     }
 
     public void click(int x, int y){
-
-        if(fieldArrayMines[x][y]==FieldState.MINE) gameState=GameState.LOSE;
+        if(x<0 || x>fieldSizeX) return;
+        if(y<0 || y>fieldSizeY) return;
+        if(fieldArrayMines[x][y]==FieldState.EMPTY) fieldArrayMines[x][y]=FieldState.EMPTY_CLICKED;
+        if(fieldArrayMines[x][y]==FieldState.MINE) {
+            fieldArrayMines[x][y]=FieldState.MINE_CLICKED;
+            gameState=GameState.LOSE;
+        }
         update();
     }
 
@@ -111,16 +119,16 @@ public class MinesweeperField {
         int newY=0;
         for (int xDelta=-1;xDelta<2;xDelta++){
             for (int yDelta=-1;yDelta<2;yDelta++){
+                if(xDelta==0 && yDelta==0) continue;
                 newX = x + xDelta;
                 newY = y + yDelta;
-                if(newX>0 && newX<=fieldSizeX && newY>0 && newY<=fieldSizeY){
+                if(newX>=0 && newX<fieldSizeX && newY>=0 && newY<fieldSizeY){
                     vec.add(new int[]{newX,newY});
                 }
             }
         }
-        int[][] tempArr = new int[vec.size()][2];
-
-        return vec.toArray(new int[][]{});
+        int[][] retArr = vec.toArray(new int[][]{});
+        return retArr;
     }
 
     private int getMinesInProximity(int x, int y){
@@ -134,6 +142,22 @@ public class MinesweeperField {
             }
         }
         return minesCounted;
+    }
+
+    @Override
+    public String toString(){
+        String returnStr="";
+        for (int x=0;x<fieldSizeX;x++) {
+            for (int y = 0; y < fieldSizeY; y++) {
+                String str=" ";
+                    if (fieldArrayMines[x][y]==FieldState.MINE) str="o";
+                    if (fieldArrayMines[x][y]==FieldState.EMPTY_CLICKED) str="'";
+                    if (fieldArrayMines[x][y]==FieldState.EMPTY) str="_";
+                returnStr = returnStr + str;
+            }
+            returnStr= returnStr+"\n";
+        }
+        return returnStr;
     }
 
 }
