@@ -10,12 +10,18 @@ import java.awt.*;
 public class GUI {
     JFrame frame;
     JTable GameField;
+    JTextArea playersTurnTextArea;
     MinesweeperField msf;
+    String player = "Player 1";
+    boolean twoPlayerMode = false;
 
-    GUI(int fieldSizeX, int fieldSizeY, int numberOfMines) {
+    GUI(int fieldSizeX, int fieldSizeY, int numberOfMines, boolean mode) {
         this.frame = new JFrame("Minesweeper");
         this.GameField = new JTable(fieldSizeX, fieldSizeY);
         this.msf = new MinesweeperField(fieldSizeX, fieldSizeY, numberOfMines);
+        this.twoPlayerMode = mode;
+        this.playersTurnTextArea = new JTextArea();
+        this.playersTurnTextArea.setText(player);
     }
 
     public void start() {
@@ -40,7 +46,7 @@ public class GUI {
                 switch (field[i][j]) {
                     case EMPTY:
                     case MINE: valueToShow = " "; break;
-                    case EMPTY_CLICKED: valueToShow = "" + (msf.getMineProximityNumbers(i,j)==0?"_":msf.getMineProximityNumbers(i,j)); break;
+                    case EMPTY_CLICKED: valueToShow = "" + (msf.getMineProximityNumbers(i,j)==0?"||||||":msf.getMineProximityNumbers(i,j)); break;
                     case MINE_CLICKED: valueToShow = "M"; break;
                     case MARKED_EMPTY:
                     case MARKED_MINE: valueToShow = "X"; break;
@@ -48,6 +54,10 @@ public class GUI {
                 }
                 this.GameField.getModel().setValueAt(valueToShow, i, j);
             }
+        }
+
+        if (this.twoPlayerMode) {
+            changePlayer();
         }
     }
 
@@ -65,7 +75,7 @@ public class GUI {
                     showMessage("You Won.");
                 }
                 else if (state == GameState.LOSE) {
-                    showMessage("You Lost");
+                    showMessage("You Lost.");
                 }
             }
         });
@@ -75,4 +85,12 @@ public class GUI {
         JOptionPane.showMessageDialog(null, message);
         System.exit(0);
     }
+    private void changePlayer() {
+            if (this.player.equals("Player 1")) {
+                this.player = "Player 2";
+            } else {
+                this.player = "Player 1";
+            }
+    }
+
 }
